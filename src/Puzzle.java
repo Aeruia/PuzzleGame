@@ -12,6 +12,7 @@ public class Puzzle extends Frame implements ActionListener {
     List<Button> buttons;
     Boolean gameOver;
     List<String> labelButtons = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "", "8");
+
     Puzzle() {
         super("Puzzle game");
         Collections.shuffle(labelButtons);
@@ -47,7 +48,6 @@ public class Puzzle extends Frame implements ActionListener {
         Collections.shuffle(labelButtons);
         for (Integer i = 0; i < buttons.size(); i++) {
             buttons.get(i).setLabel(labelButtons.get(i));
-            
         }
     }
 
@@ -59,25 +59,27 @@ public class Puzzle extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int index = buttons.indexOf(e.getSource());
         changePosition(index);
-        checkIfGameOver();
+        if (gameOver()) {
+            JOptionPane.showMessageDialog(this, "Congratulations!!! You won the Game");
+            reinitPuzzle();
+        }
     }
 
-
-    private void checkIfGameOver() {
+    private Boolean gameOver() {
         gameOver = true;
         for (Integer i = 1; i < buttons.size(); i++) {
             String label = buttons.get(i - 1).getLabel();
             gameOver = gameOver && label.equals(i.toString());
+            if (!gameOver) {
+                return gameOver;
+            }
         }
-        if (gameOver) {
-            JOptionPane.showMessageDialog(this, "Congratulations!!! You won the Game");
-            reinitPuzzle();
-        }
-        
+        return gameOver;
+
     }
 
     private void changePosition(int index) {
-        List<Integer> steps = Arrays.asList(-3,-1, 1, 3);
+        List<Integer> steps = Arrays.asList(-3, -1, 1, 3);
         String label = buttons.get(index).getLabel();
         for (Integer step : steps) {
             int newIndex = index + step;
@@ -88,7 +90,6 @@ public class Puzzle extends Frame implements ActionListener {
                     buttons.get(index).setLabel("");
                     break;
                 }
-
             }
         }
     }
