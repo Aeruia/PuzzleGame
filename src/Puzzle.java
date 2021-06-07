@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 public class Puzzle extends Frame implements ActionListener {
     Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
     List<Button> buttons;
-    Boolean gameOver;
     List<String> labelButtons = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "", "8");
 
     Puzzle() {
@@ -66,7 +65,7 @@ public class Puzzle extends Frame implements ActionListener {
     }
 
     private Boolean gameOver() {
-        gameOver = true;
+        Boolean gameOver = true;
         for (Integer i = 1; i < buttons.size(); i++) {
             String label = buttons.get(i - 1).getLabel();
             gameOver = gameOver && label.equals(i.toString());
